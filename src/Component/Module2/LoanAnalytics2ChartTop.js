@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Line } from "react-chartjs-2";
 import Header from "../header";
+import Footer from "../Footer/footer";
 import html2canvas from "html2canvas";
 import { saveAs } from "file-saver";
 
@@ -128,6 +129,7 @@ const LoanAnalytics2ChartTop = () => {
           Download
         </button>
       </div>
+      <Footer/>
     </div>
   );
 };

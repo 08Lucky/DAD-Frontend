@@ -4,6 +4,7 @@ import { PolarArea  } from "react-chartjs-2";
 import Header from "../header";
 import html2canvas from "html2canvas";
 import { saveAs } from "file-saver";
+import Footer from "../Footer/footer";
 
 const LoanAnalyticsChartBottom = () => {
   const [data, setData] = useState([]);
@@ -138,6 +139,7 @@ const LoanAnalyticsChartBottom = () => {
           Download
         </button>
       </div>
+      <Footer/>
     </div>
   );
 };

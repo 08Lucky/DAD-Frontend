@@ -4,6 +4,7 @@ import { Line } from "react-chartjs-2";
 import Header from "../header";
 import html2canvas from "html2canvas";
 import { saveAs } from "file-saver";
+import Footer from "../Footer/footer";
 
 const LoanAnalyticsChartTop = () => {
   const [data, setData] = useState([]);
@@ -124,6 +125,7 @@ const LoanAnalyticsChartTop = () => {
         </div>
         <button onClick={handleDownloadPDF} style={{backgroundColor: "#98144d", marginBottom:"20px"}} class="btn btn-dark btn-lg btn-block">Download</button>
       </div>
+      <Footer/>
     </div>
   );
 };

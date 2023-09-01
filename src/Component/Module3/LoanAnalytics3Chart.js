@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Bar } from 'react-chartjs-2';
 import Header from '../header';
+import Footer from '../Footer/footer';
 import html2canvas from "html2canvas";
 import { saveAs } from "file-saver";
 
@@ -102,6 +103,7 @@ const LoanAnalytics3Chart = () => {
         </div>
         <button onClick={handleDownloadPDF} style={{backgroundColor: "#98144d", marginBottom:"20px"}} class="btn btn-dark btn-lg btn-block">Download</button>
       </div>
+      <Footer/>
     </div>
   );
 };

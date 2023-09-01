@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Header from '../header';
+import Footer from '../Footer/footer';
 import html2canvas from 'html2canvas';
 import { saveAs } from 'file-saver';
 import { Scatter } from 'react-chartjs-2'; // Import Scatter from react-chartjs-2
@@ -104,6 +105,7 @@ const LoanAnalytics3ScatterPlot = () => {
         </div>
         <button onClick={handleDownloadPDF} style={{ backgroundColor: "#98144d", marginBottom: "20px" }} className="btn btn-dark btn-lg btn-block">Download</button>
       </div>
+      <Footer/>
     </div>
   );
 };

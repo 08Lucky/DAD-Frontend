@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Bar } from "react-chartjs-2";
 import Header from "../header";
+import Footer from "../Footer/footer";
 
 const LoanAnalyticsChart2 = () => {
   const [data, setData] = useState([]);
@@ -57,7 +58,8 @@ const LoanAnalyticsChart2 = () => {
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
-        marginTop:"30px"
+        marginTop:"30px",
+        marginBottom:"70px"
       }}
     >
       <h1 style={{ alignItems: "center" }}>Total Interest by SOL_ID</h1>
@@ -102,6 +104,7 @@ const LoanAnalyticsChart2 = () => {
         )}
       </div>
     </div>
+    <Footer/>
     </div>
   );
 };

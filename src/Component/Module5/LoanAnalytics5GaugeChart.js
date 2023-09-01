@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Header from '../header';
+import Footer from '../Footer/footer';
 import html2canvas from 'html2canvas';
 import { saveAs } from 'file-saver';
 import GaugeChart from 'react-gauge-chart';
@@ -82,6 +83,7 @@ const LoanAnalytics5GaugeChart = () => {
           Download
         </button>
       </div>
+      <Footer/>
     </div>
   );
 };

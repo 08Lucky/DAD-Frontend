@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { Outlet } from "react-router-dom";
 import "./Dashboard.css";
+import FileUpload from "../FileUpload";
 import Header from "../header/index";
+import Footer from "../Footer/footer";
 import {
   MDBCarousel,
   MDBCarouselItem,
@@ -299,6 +301,11 @@ const Dashboard = () => {
 
         <Outlet />
       </div>
+      <div style={{background:"#98144d", width:"45%", height:"40px",display:"flex", alignItems:"center", marginLeft:"20px", marginTop:"20px", borderRadius:"5px"}}>
+        <span style={{color:"white", fontWeight:"bold", marginLeft:"20px"}}>Upload Excel Sheet</span>
+      </div>
+      <FileUpload/>
+      <Footer/>
     </div>
   );
 };
