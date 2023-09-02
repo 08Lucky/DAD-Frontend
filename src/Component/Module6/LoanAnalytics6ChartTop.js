@@ -5,9 +5,11 @@ import Header from '../header';
 import Footer from '../Footer/footer';
 import html2canvas from "html2canvas";
 import { saveAs } from "file-saver";
+import BirdLoader from "../BirdLoader/BirdLoader";
 
 const LoanAnalytics6ChartTop = () => {
   const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const token = localStorage.getItem("jwtToken");
@@ -26,9 +28,11 @@ const LoanAnalytics6ChartTop = () => {
             .reduce((obj, [key, value]) => ({ ...obj, [key]: value }), {});
             
           setData(sortedData);
+          setLoading(false);
         })
-        .catch(error => {
-          console.error('Error fetching data:', error);
+        .catch((error) => {
+          console.error("Error fetching data:", error);
+          setLoading(false);
         });
     }
   }, []);
@@ -72,9 +76,19 @@ const LoanAnalytics6ChartTop = () => {
         marginTop:"30px"
       }}>
         <h1 style={{ alignItems: "center" }}>CBO_SRM_ID wise Top 10 Good customers count</h1>
+        {loading ? (
+          <BirdLoader />
+        ) : (
+          <div style={{
+            width: "100%",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center"
+          }}>
         <div style={{ width: '100%', overflowX: "auto", padding: "20px",  display:"flex", justifyContent:"center" }}>
           {chartData && (
-            <div style={{ width: "1000px" }}>
+            <div style={{ width: "68%" }}>
               <Bar
                 data={chartData}
                 options={{
@@ -108,6 +122,8 @@ const LoanAnalytics6ChartTop = () => {
           )}
         </div>
         <button onClick={handleDownloadPDF} style={{backgroundColor: "#98144d", marginBottom:"20px"}} class="btn btn-dark btn-lg btn-block">Download</button>
+        </div>
+        )}
       </div>
       <Footer/>
     </div>

@@ -3,10 +3,12 @@ import axios from "axios";
 import { Bar } from "react-chartjs-2";
 import Header from "../header";
 import Footer from "../Footer/footer";
+import BirdLoader from "../BirdLoader/BirdLoader"; 
 
 const LoanAnalyticsChart2 = () => {
   const [data, setData] = useState([]);
   const [chartData, setChartData] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const token = localStorage.getItem("jwtToken");
@@ -22,9 +24,11 @@ const LoanAnalyticsChart2 = () => {
         .then((response) => {
           console.log(response);
           setData(response.data);
+          setLoading(false);
         })
         .catch((error) => {
           console.error("Error fetching data:", error);
+          setLoading(false);
         });
     }
   }, []);
@@ -63,6 +67,9 @@ const LoanAnalyticsChart2 = () => {
       }}
     >
       <h1 style={{ alignItems: "center" }}>Total Interest by SOL_ID</h1>
+      {loading ? (
+          <BirdLoader /> 
+        ) : (
       <div style={{ width: "100%", overflowX: "auto", padding: "30px" }}>
         {chartData && (
           <div style={{ width: "5000px" }}>
@@ -103,6 +110,7 @@ const LoanAnalyticsChart2 = () => {
           </div>
         )}
       </div>
+      )}
     </div>
     <Footer/>
     </div>

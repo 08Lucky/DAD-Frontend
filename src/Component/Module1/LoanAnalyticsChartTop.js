@@ -5,27 +5,31 @@ import Header from "../header";
 import html2canvas from "html2canvas";
 import { saveAs } from "file-saver";
 import Footer from "../Footer/footer";
+import BirdLoader from "../BirdLoader/BirdLoader";
 
 const LoanAnalyticsChartTop = () => {
   const [data, setData] = useState([]);
   const [chartData, setChartData] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const token = localStorage.getItem("jwtToken");
     if (token) {
-    axios
-    .get("http://localhost:8080/analytics/total-interest-by-cbo-srm", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then((response) => {
-        console.log(response);
-        setData(response.data);
-      })
-      .catch((error) => {
-        console.error("Error fetching data:", error);
-      });
+      axios
+        .get("http://localhost:8080/analytics/total-interest-by-cbo-srm", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then((response) => {
+          console.log(response);
+          setData(response.data);
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.error("Error fetching data:", error);
+          setLoading(false);
+        });
     }
   }, []);
 
@@ -60,7 +64,7 @@ const LoanAnalyticsChartTop = () => {
 
   const handleDownloadPDF = () => {
     const chartDiv = document.getElementById("chart-container");
-  
+
     if (chartDiv) {
       html2canvas(chartDiv).then((canvas) => {
         canvas.toBlob((blob) => {
@@ -80,52 +84,64 @@ const LoanAnalyticsChartTop = () => {
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
-          marginTop:"30px"
+          marginTop: "30px"
         }}
       >
         <h1 style={{ alignItems: "center" }}>Top 10 Total Interest by CBO_SRM_ID</h1>
-        <div style={{ width: "100%", overflowX: "auto", padding: "30px", display:"flex", justifyContent:"center" }}>
-          {chartData && (
-            <div style={{ width: "1000px" }}>
-              <Line
-                data={chartData}
-                options={{
-                  plugins: {
-                    legend: { display: false },
-                  },
-                  scales: {
-                    x: {
-                      title: {
-                        display: true,
-                        text: "CBO_SRM_ID",
+        {loading ? (
+          <BirdLoader />
+        ) : (
+          <div style={{
+            width: "100%",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center"
+          }}>
+            <div style={{ width: "100%", overflowX: "auto", padding: "30px", display: "flex", justifyContent: "center" }}>
+              {chartData && (
+                <div style={{ width: "65%" }}>
+                  <Line
+                    data={chartData}
+                    options={{
+                      plugins: {
+                        legend: { display: false },
                       },
-                      type: "category",
-                      beginAtZero: true,
-                      ticks: {
-                        maxRotation: 90,
-                        minRotation: 90,
-                        autoSkip: false,
-                        padding: 10,
-                        fontSize: 10,
+                      scales: {
+                        x: {
+                          title: {
+                            display: true,
+                            text: "CBO_SRM_ID",
+                          },
+                          type: "category",
+                          beginAtZero: true,
+                          ticks: {
+                            maxRotation: 90,
+                            minRotation: 90,
+                            autoSkip: false,
+                            padding: 10,
+                            fontSize: 10,
+                          },
+                        },
+                        y: {
+                          title: {
+                            display: true,
+                            text: "Total Interest",
+                          },
+                          type: "logarithmic",
+                          min: 100,
+                        },
                       },
-                    },
-                    y: {
-                      title: {
-                        display: true,
-                        text: "Total Interest",
-                      },
-                      type: "logarithmic", 
-                      min: 100, 
-                    },
-                  },
-                }}
-              />
+                    }}
+                  />
+                </div>
+              )}
             </div>
-          )}
-        </div>
-        <button onClick={handleDownloadPDF} style={{backgroundColor: "#98144d", marginBottom:"20px"}} class="btn btn-dark btn-lg btn-block">Download</button>
+            <button onClick={handleDownloadPDF} style={{ backgroundColor: "#98144d", marginBottom: "20px" }} class="btn btn-dark btn-lg btn-block">Download</button>
+          </div>
+        )}
       </div>
-      <Footer/>
+      <Footer />
     </div>
   );
 };

@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { PolarArea  } from "react-chartjs-2";
+import { PolarArea } from "react-chartjs-2";
 import Header from "../header";
 import html2canvas from "html2canvas";
 import { saveAs } from "file-saver";
 import Footer from "../Footer/footer";
+import BirdLoader from "../BirdLoader/BirdLoader";
 
 const LoanAnalyticsChartBottom = () => {
   const [data, setData] = useState([]);
   const [chartData, setChartData] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const token = localStorage.getItem("jwtToken");
@@ -22,9 +24,11 @@ const LoanAnalyticsChartBottom = () => {
         .then((response) => {
           console.log(response);
           setData(response.data);
+          setLoading(false);
         })
         .catch((error) => {
           console.error("Error fetching data:", error);
+          setLoading(false);
         });
     }
   }, []);
@@ -42,8 +46,6 @@ const LoanAnalyticsChartBottom = () => {
 
       const labels = bottom10Data.map((item) => item.cboSrmId);
       const totalInterest = bottom10Data.map((item) => item.totalInterest);
-
-      const backgroundColor = totalInterest.map(() => "rgba(152, 20, 77, 0.6)");
 
       setChartData({
         labels: labels,
@@ -91,55 +93,67 @@ const LoanAnalyticsChartBottom = () => {
       <Header />
       <div
         style={{
-          paddingBlockStart: "20px",
+          paddingBlockStart: "15px",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
-          marginTop: "30px",
+          marginTop: "25px",
         }}
       >
         <h1 style={{ alignItems: "center" }}>
           Bottom 10 Total Interest by CBO_SRM_ID
         </h1>
-        <div
-          style={{
+        {loading ? (
+          <BirdLoader />
+        ) : (
+          <div style={{
             width: "100%",
-            overflowX: "auto",
-            padding: "30px",
             display: "flex",
+            flexDirection:"column",
             justifyContent: "center",
-          }}
-        >
-          {chartData && (
-            <div style={{ width: "800px" }}>
-              <PolarArea // Use the PolarArea component
-                data={chartData}
-                options={{
-                  elements: {
-                    arc: {
-                      borderWidth: 0, // Remove borders from the arcs
-                    },
-                  },
-                  scale: {
-                    ticks: {
-                      beginAtZero: true,
-                    },
-                  },
-                }}
-              />
+            alignItems:"center"
+          }}>
+            <div
+              style={{
+                width: "100%",
+                overflowX: "auto",
+                padding: "15px",
+                display: "flex",
+                justifyContent: "center",
+              }}
+            >
+              {chartData && (
+                <div style={{ width: "40%" }}>
+                  <PolarArea
+                    data={chartData}
+                    options={{
+                      elements: {
+                        arc: {
+                          borderWidth: 0,
+                        },
+                      },
+                      scale: {
+                        ticks: {
+                          beginAtZero: true,
+                        },
+                      },
+                    }}
+                  />
+                </div>
+              )}
             </div>
-          )}
-        </div>
-        <button
-          onClick={handleDownloadPDF}
-          style={{ backgroundColor: "#98144d", marginBottom: "20px" }}
-          className="btn btn-dark btn-lg btn-block"
-        >
-          Download
-        </button>
+            <button
+              onClick={handleDownloadPDF}
+              style={{ backgroundColor: "#98144d", marginBottom: "20px" }}
+              className="btn btn-dark btn-lg btn-block"
+            >
+              Download
+            </button>
+          </div>
+        )}
       </div>
-      <Footer/>
+      <Footer />
     </div>
   );
 };

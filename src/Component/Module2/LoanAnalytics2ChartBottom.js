@@ -5,10 +5,12 @@ import Header from "../header";
 import Footer from "../Footer/footer";
 import html2canvas from "html2canvas";
 import { saveAs } from "file-saver";
+import BirdLoader from "../BirdLoader/BirdLoader"; 
 
 const LoanAnalytics2ChartBottom = () => {
   const [data, setData] = useState([]);
   const [chartData, setChartData] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const token = localStorage.getItem("jwtToken");
@@ -22,9 +24,11 @@ const LoanAnalytics2ChartBottom = () => {
         .then((response) => {
           console.log(response);
           setData(response.data);
+          setLoading(false);
         })
         .catch((error) => {
           console.error("Error fetching data:", error);
+          setLoading(false);
         });
     }
   }, []);
@@ -80,35 +84,45 @@ const LoanAnalytics2ChartBottom = () => {
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
-          marginTop: "30px",
+          marginTop: "20px",
         }}
       >
         <h1 style={{ alignItems: "center" }}>
           Bottom 10 Values of Total Interest by SOL_ID
         </h1>
+        {loading ? (
+          <BirdLoader />
+        ) : (
+          <div style={{
+            width: "100%",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center"
+          }}>
         <div
           style={{
             width: "100%",
             overflowX: "auto",
-            padding: "30px",
+            padding: "10px",
             display: "flex",
             justifyContent: "center",
           }}
         >
           {chartData && (
-            <div style={{ width: "800px" }}>
-              <Radar // Use the Radar component
+            <div style={{ width: "40%" }}>
+              <Radar
                 data={chartData}
                 options={{
                   elements: {
                     line: {
-                      borderWidth: 2, // Set the width of the radar lines
+                      borderWidth: 2, 
                     },
                   },
                   scales: {
                     r: {
                       beginAtZero: true,
-                      suggestedMax: 100, // Set the maximum value for the radar chart
+                      suggestedMax: 100, 
                     },
                   },
                 }}
@@ -123,6 +137,8 @@ const LoanAnalytics2ChartBottom = () => {
         >
           Download
         </button>
+        </div>
+        )}
       </div>
       <Footer/>
     </div>

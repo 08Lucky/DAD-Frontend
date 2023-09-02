@@ -5,10 +5,12 @@ import Header from "../header";
 import Footer from "../Footer/footer";
 import html2canvas from "html2canvas";
 import { saveAs } from "file-saver";
+import BirdLoader from "../BirdLoader/BirdLoader";
 
 const LoanAnalytics2ChartTop = () => {
   const [data, setData] = useState([]);
   const [chartData, setChartData] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const token = localStorage.getItem("jwtToken");
@@ -19,13 +21,15 @@ const LoanAnalytics2ChartTop = () => {
         Authorization: `Bearer ${token}`,
       },
     })
-      .then((response) => {
-        console.log(response);
-        setData(response.data);
-      })
-      .catch((error) => {
-        console.error("Error fetching data:", error);
-      });
+    .then((response) => {
+      console.log(response);
+      setData(response.data);
+      setLoading(false);
+    })
+    .catch((error) => {
+      console.error("Error fetching data:", error);
+      setLoading(false);
+    });
     }
   }, []);
 
@@ -82,9 +86,19 @@ const LoanAnalytics2ChartTop = () => {
         }}
       >
         <h1 style={{ alignItems: "center" }}>Top 10 Values of Total Interest by SOL_ID</h1>
+        {loading ? (
+          <BirdLoader />
+        ) : (
+          <div style={{
+            width: "100%",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center"
+          }}>
         <div style={{ width: "100%", overflowX: "auto", padding: "30px", display: "flex", justifyContent: "center" }}>
           {chartData && (
-            <div style={{ width: "1000px" }}>
+            <div style={{ width: "68%" }}>
               <Line
                 data={chartData}
                 options={{
@@ -128,6 +142,8 @@ const LoanAnalytics2ChartTop = () => {
         >
           Download
         </button>
+        </div>
+        )}
       </div>
       <Footer/>
     </div>

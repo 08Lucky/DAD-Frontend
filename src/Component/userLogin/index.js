@@ -107,6 +107,7 @@ function UserLogin() {
                           >
                             Login
                           </button>{" "}
+                          {error && <p className="text-danger mt-3">{error}</p>}
                         </div>
                       </form>
                     </div>

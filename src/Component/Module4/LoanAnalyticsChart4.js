@@ -5,9 +5,11 @@ import Header from '../header';
 import Footer from '../Footer/footer';
 import html2canvas from "html2canvas";
 import { saveAs } from "file-saver";
+import BirdLoader from "../BirdLoader/BirdLoader";
 
 const FailureCountDoughnutChart = () => {
   const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const token = localStorage.getItem("jwtToken");
@@ -18,11 +20,14 @@ const FailureCountDoughnutChart = () => {
             Authorization: `Bearer ${token}`,
           },
         })
-        .then(response => {
+        .then((response) => {
+          console.log(response);
           setData(response.data);
+          setLoading(false);
         })
-        .catch(error => {
-          console.error('Error fetching data:', error);
+        .catch((error) => {
+          console.error("Error fetching data:", error);
+          setLoading(false);
         });
     }
   }, []);
@@ -77,10 +82,22 @@ const FailureCountDoughnutChart = () => {
         marginTop: "30px"
       }}>
         <h1 style={{ alignItems: "center" }}>CBO_SRM_ID wise No. Of Failure 1</h1>
-        <div style={{ width: '80%', height: '420px', margin: '0 auto', marginBottom:"15px" }}>
+        {loading ? (
+          <BirdLoader />
+        ) : (
+          <div style={{
+            width: "100%",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center"
+          }}>
+        <div style={{ width: '80%', height: '76vh', margin: '0 auto', marginBottom:"15px" }}>
           <Doughnut data={chartData} options={chartOptions} />
         </div>
         <button onClick={handleDownloadPDF} style={{backgroundColor: "#98144d", marginBottom:"20px"}} class="btn btn-dark btn-lg btn-block">Download</button>
+        </div>
+        )}
       </div>
       <Footer/>
     </div>

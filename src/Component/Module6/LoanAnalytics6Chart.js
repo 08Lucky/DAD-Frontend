@@ -3,10 +3,11 @@ import axios from 'axios';
 import { Bar } from 'react-chartjs-2';
 import Header from '../header';
 import Footer from '../Footer/footer';
+import BirdLoader from "../BirdLoader/BirdLoader"; 
 
 const LoanAnalytics6Chart = () => {
   const [data, setData] = useState([]);
-
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const token = localStorage.getItem("jwtToken");
@@ -17,19 +18,20 @@ const LoanAnalytics6Chart = () => {
             Authorization: `Bearer ${token}`,
           },
         })
-        .then(response => {
+        .then((response) => {
+          console.log(response);
           setData(response.data);
+          setLoading(false);
         })
-        .catch(error => {
-          console.error('Error fetching data:', error);
+        .catch((error) => {
+          console.error("Error fetching data:", error);
+          setLoading(false);
         });
     }
   }, []);
 
-
   const labels = Object.keys(data);
   const failureCounts = Object.values(data);
-
 
   const chartData = {
     labels: labels,
@@ -57,6 +59,9 @@ const LoanAnalytics6Chart = () => {
         marginBottom:"70px"
       }}>
         <h1 style={{ alignItems: "center" }}>CBO_SRM_ID wise Good Customer Count</h1>
+        {loading ? (
+          <BirdLoader /> 
+        ) : (
         <div style={{ width: '100%', overflowX: "auto", padding: "10px" }}>
           {chartData && (
             <div style={{ width: "4000px" }}>
@@ -93,6 +98,7 @@ const LoanAnalytics6Chart = () => {
             </div>
           )}
         </div>
+        )}
       </div>
       <Footer/>
     </div>

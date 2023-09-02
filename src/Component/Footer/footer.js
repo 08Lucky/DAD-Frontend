@@ -7,7 +7,7 @@ function Footer() {
           <div className='text-center p-3' style={{ backgroundColor: 'rgba(0, 0, 0, 0.2)' }}>
             &copy; {new Date().getFullYear()} Copyright:{' '}
             <span className='text-dark'>
-              Group 2
+              Axis Pvt Ltd
             </span>
           </div>
         </MDBFooter>

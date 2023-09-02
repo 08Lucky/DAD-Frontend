@@ -5,9 +5,11 @@ import Footer from '../Footer/footer';
 import html2canvas from 'html2canvas';
 import { saveAs } from 'file-saver';
 import { Scatter } from 'react-chartjs-2'; // Import Scatter from react-chartjs-2
+import BirdLoader from "../BirdLoader/BirdLoader";
 
 const LoanAnalytics3ScatterPlot = () => {
     const [data, setData] = useState([]);
+    const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const token = localStorage.getItem('jwtToken');
@@ -19,10 +21,13 @@ const LoanAnalytics3ScatterPlot = () => {
           },
         })
         .then((response) => {
+          console.log(response);
           setData(response.data);
+          setLoading(false);
         })
         .catch((error) => {
-          console.error('Error fetching data:', error);
+          console.error("Error fetching data:", error);
+          setLoading(false);
         });
     }
   }, []);
@@ -72,7 +77,17 @@ const LoanAnalytics3ScatterPlot = () => {
         marginTop: "30px"
       }}>
         <h1 style={{ alignItems: "center" }}>SOL_ID wise No. Of Failure 1 & 4</h1>
-        <div style={{ width: '80%', padding: "10px" }}>
+        {loading ? (
+          <BirdLoader />
+        ) : (
+          <div style={{
+            width: "100%",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center"
+          }}>
+        <div style={{ width: '68%', padding: "10px" }}>
           <Scatter 
             data={chartData}
             options={{
@@ -104,6 +119,8 @@ const LoanAnalytics3ScatterPlot = () => {
           />
         </div>
         <button onClick={handleDownloadPDF} style={{ backgroundColor: "#98144d", marginBottom: "20px" }} className="btn btn-dark btn-lg btn-block">Download</button>
+        </div>
+        )}
       </div>
       <Footer/>
     </div>

@@ -5,9 +5,11 @@ import Footer from '../Footer/footer';
 import html2canvas from 'html2canvas';
 import { saveAs } from 'file-saver';
 import GaugeChart from 'react-gauge-chart';
+import BirdLoader from "../BirdLoader/BirdLoader";
 
 const LoanAnalytics5GaugeChart = () => {
     const [data, setData] = useState([]);
+    const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const token = localStorage.getItem('jwtToken');
@@ -19,15 +21,17 @@ const LoanAnalytics5GaugeChart = () => {
           },
         })
         .then((response) => {
+          console.log(response);
           setData(response.data);
+          setLoading(false);
         })
         .catch((error) => {
-          console.error('Error fetching data:', error);
+          console.error("Error fetching data:", error);
+          setLoading(false);
         });
     }
   }, []);
 
-  const labels = Object.keys(data);
   const failureCounts = Object.values(data);
 
   // Assuming you want the first value
@@ -61,7 +65,17 @@ const LoanAnalytics5GaugeChart = () => {
         <h1 style={{ alignItems: 'center' }}>
           CBO_SRM_ID wise failure 4 count
         </h1>
-        <div style={{ width: '80%', padding: '10px', textAlign: 'center' }}>
+        {loading ? (
+          <BirdLoader />
+        ) : (
+          <div style={{
+            width: "100%",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center"
+          }}>
+        <div style={{ width: '75%', padding: '10px', textAlign: 'center' }}>
           <GaugeChart
             id="gauge-chart1"
             textColor="#000"
@@ -69,9 +83,9 @@ const LoanAnalytics5GaugeChart = () => {
             needleColor="#000"
             colors={['#ff0000', '#ffa500', '#00ff00']}
             hideText={false}
-            arcWidth={0.2} // Adjust the width of the gauge arc
-            nrOfLevels={5} // Number of color levels
-            cornerRadius={3} // Round the corners of the gauge
+            arcWidth={0.2} 
+            nrOfLevels={5} 
+            cornerRadius={3} 
             formatTextValue={(value) => `${value}%`} 
           />
         </div>
@@ -82,6 +96,8 @@ const LoanAnalytics5GaugeChart = () => {
         >
           Download
         </button>
+        </div>
+        )}
       </div>
       <Footer/>
     </div>
