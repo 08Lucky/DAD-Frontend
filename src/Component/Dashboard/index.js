@@ -23,28 +23,28 @@ const Dashboard = () => {
   return (
     <div style={{ display: "flex", flexDirection: "column" }}>
       <Header />
-      <div style={{ display: "flex", alignItems: "center", marginTop: "60px"}}>
-        <MDBCarousel showControls showIndicators className="w-70" style={{marginLeft:"10px",marginRight:"30px", border:"1px", width:"65%"}}>
+      <div style={{ display: "flex", alignItems: "center", marginTop: "60px" }}>
+        <MDBCarousel showControls showIndicators className="w-70" style={{ marginLeft: "10px", marginRight: "30px", border: "1px", width: "65%" }}>
           <MDBCarouselItem
             className='w-70 d-block'
             itemId={1}
             src="/images/carousel1.jpg"
             alt='...'
-            style={{height:"355px"}}
+            style={{ height: "355px" }}
           />
           <MDBCarouselItem
             className='w-70 d-block'
             itemId={2}
             src="/images/carousel2.jpg"
             alt='...'
-            style={{height:"355px"}}
+            style={{ height: "355px" }}
           />
           <MDBCarouselItem
             className='w-70 d-block'
             itemId={3}
             src="/images/carousel3.jpg"
             alt='...'
-            style={{height:"355px"}}
+            style={{ height: "355px" }}
           />
         </MDBCarousel>
         <div>
@@ -52,8 +52,8 @@ const Dashboard = () => {
           <img src="/images/MyOffer.jpg" />
         </div>
       </div>
-      <div style={{background:"#98144d", width:"45%", height:"40px",display:"flex", alignItems:"center", marginLeft:"20px", marginTop:"20px", borderRadius:"5px"}}>
-        <span style={{color:"white", fontWeight:"bold", marginLeft:"20px"}}>Visualization Dashboard</span>
+      <div style={{ background: "#98144d", width: "45%", height: "40px", display: "flex", alignItems: "center", marginLeft: "20px", marginTop: "20px", borderRadius: "5px" }}>
+        <span style={{ color: "white", fontWeight: "bold", marginLeft: "20px" }}>Visualization Dashboard</span>
       </div>
       <div className="dashboard-container">
         <div className="option-selector">
@@ -74,13 +74,13 @@ const Dashboard = () => {
               SOL_ID wise failure 1 & 4 count
             </option>
             <option value="failure1CountByCboSrm">
-            CBO_SRM_ID wise failure 1 count
+              CBO_SRM_ID wise failure 1 count
             </option>
             <option value="failure4CountByCboSrm">
-            CBO_SRM_ID wise failure 4 count
+              CBO_SRM_ID wise failure 4 count
             </option>
             <option value="CboSrmWiseGoodCustomer">
-            CBO_SRM_ID wise Good Customer Count
+              CBO_SRM_ID wise Good Customer Count
             </option>
           </select>
         </div>
@@ -301,11 +301,11 @@ const Dashboard = () => {
 
         <Outlet />
       </div>
-      <div style={{background:"#98144d", width:"45%", height:"40px",display:"flex", alignItems:"center", marginLeft:"20px", marginTop:"20px", borderRadius:"5px"}}>
-        <span style={{color:"white", fontWeight:"bold", marginLeft:"20px"}}>Upload Excel Sheet</span>
+      <div style={{ background: "#98144d", width: "45%", height: "40px", display: "flex", alignItems: "center", marginLeft: "20px", marginTop: "20px", borderRadius: "5px" }}>
+        <span style={{ color: "white", fontWeight: "bold", marginLeft: "20px" }}>Upload Excel Sheet</span>
       </div>
-      <FileUpload/>
-      <Footer/>
+      <FileUpload />
+      <Footer />
     </div>
   );
 };

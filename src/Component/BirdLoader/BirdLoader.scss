@@ -21,6 +21,7 @@
     background-size: 50% 50%;
   }
 
+  //SCSS mixins define reusable styles for setting the width and height of elements
   @mixin square($size) {
     width: $size;
     height: $size;
@@ -38,6 +39,7 @@
     position: relative;
     transition: opacity 1s;
 
+    //used to center the bird loader within bird container
     & > div {
       position: absolute;
       top: 0;
@@ -49,17 +51,21 @@
 
     .crest {
       @extend .half;
-      @include square(50%); /* Adjust the size here */
+      @include square(50%); 
       background-image: linear-gradient(to right, #98144d, #a12a15);
       animation: crest $durationTime infinite linear;
 
+      //Animation
       @keyframes crest {
+        //At 0%, the element has no rotation
         0% {
           transform: rotate(0deg);
         }
+        //Between 25% and 50% of the animation, the element rotates 180 degrees 
         25%, 50% {
           transform: rotate(180deg);
         }
+        //Between 75% and 100% of the animation, the element completes a full rotation of 360 degrees
         75%, 100% {
           transform: rotate(360deg);
         }
